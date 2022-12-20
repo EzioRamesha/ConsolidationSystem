@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "UploadFile";
+}
+@if (ViewBag.Message != null)
+{
+    <script>
+
+$(document).ready(function(){
+
+alert('@ViewBag.Message');
+
+});
+
+    </script>
+
+}
+<h2>UploadFile</h2>
+@using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <style>
+        .drop-zone {
+            height: 200px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: "Quicksand", sans-serif;
+            font-weight: 500;
+            font-size: 20px;
+            cursor: pointer;
+            color: #cccccc;
+            border: 4px dashed #009578;
+            border-radius: 10px;
+        }
+    </style>
+    <div>
+        <div class="drop-zone">
+            <span class="drop-zone__prompt">Drop file here or click to</span>
+            @Html.TextBox("file", "", new { type = "file" })
+        </div>
+        <br />
+        <div style="text-align:end">
+            <input type="submit" class="btn btn-warning" style=" width: 100px;" value="Start" />
+        </div>
+
+        @ViewBag.Message
+    </div>
+}

@@ -1,0 +1,182 @@
+﻿@{
+    ViewBag.Title = "RezliveInv";
+}
+@section Scripts{
+
+    <script src="~/Scripts/PageScripts/RezliveInv/RezliveInvcontroller.js"></script>
+}
+@if (ViewBag.Message != null)
+{
+    <script>
+
+$(document).ready(function(){
+
+alert('@ViewBag.Message');
+
+});
+        $("input").on("change", function () {
+            this.setAttribute(
+                "data-date",
+                moment(this.value, "YYYY-MM-DD")
+                    .format(this.getAttribute("data-date-format"))
+            )
+        }).trigger("change")
+
+    </script>
+
+}
+
+
+@using (Html.BeginForm("RezliveInv", "RezliveInv", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <style>
+        .drop-zone {
+            height: 107px;
+           
+            display: flex;
+            align-items: center;
+            justify-content: center;
+           
+            font-family: "Quicksand", sans-serif;
+            font-weight: 500;
+            font-size: 18px;
+          
+            color: #cccccc;
+            border: 4px dashed #009578;
+            border-radius: 10px;
+            width: 42%;
+        }
+
+        .bgRed {
+            background-color: #d06a6a !important;
+            color: black;
+        }
+       
+    </style>
+    <div>
+      
+        <div class="col-md-3 drop-zone">
+            <b style="color:black">Inv here </b>
+            @Html.TextBox("Compfile", "", new { type = "file" })
+        <b style ="color:black">CRM here</b>
+            @Html.TextBox("CRMfiles", "", new { type = "file" })
+</div>
+        <br />
+        <div class="col-md-3" style="text-align: center">
+            <button type="submit" class="btn btn-sm btn-warning" style=" width: 100px;"><i class="fa fa-play" download></i> Start</button>
+        </div>
+        <div class="col-md-6" style="text-align: center">
+
+        </div>
+    </div>
+}
+<br />
+<div style="padding: 3%;"></div>
+<div ng-controller="RezliveInvcontroller" class="row" ng-init="initialize()">
+
+    <div class="col-lg-12 col-md-12">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <label>Filter: <input type="date" data-date="" title="Filter" name="Filter" ng-model="FDateTime" class="form-control "></label>
+                    </div>
+                    <div class="col-md-6">
+                        <label>
+                            Batch No:  <select name="BatchNo"
+                                               class="form-control"
+                                               data-ng-model="BatchNos"
+                                               ng-change="BatchNofilter()"
+                                               data-ng-options="Batchno.BatchNo as Batchno.BatchNo for Batchno in BatchNo | orderBy:'BatchNo'">
+                                <option value="" selected disabled>--- BatchNo ---</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-1" style="padding-top: 20px; ">
+                @*<label>  <input type="submit" value="Batch Delete" class=" btn btn-danger" ng-click="deleteBatch(BatchNos)"> </></label>*@
+                <button ng-click="deleteBatch(BatchNos)" class="btn btn-danger"><i class="fa fa-trash-o" download></i> Batch Delete</button>
+            </div>
+            <div class="col-md-1">
+                @*<label>By Filter: <input type="button" class="btn btn-primary form-control" value="Export" ng-click="Export()" /> </label>*@
+                <label>By Filter D/W: <button ng-click="Export()" class="btn btn-primary"><i class="fa fa-file-excel-o" download></i> Export</button></label>
+            </div>
+            @*<div class="col-md-1">
+            <label>By date: <a ng-if="Qnetlnvs.length" class="btn btn-info form-control"  href="@Url.Action("ExportQnetlnv", "Home")"> Export</a></label>
+        </div>*@
+            <div class="col-md-1">
+                <label>By Filter D/W: <button ng-click="Diff()" class="btn btn-default"><i class="fa fa-filter" download></i> Amount</button></label>
+
+            </div>
+            <div class="col-md-5" style="text-align: end">
+                <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()">
+                </ul>
+            </div>
+
+        </div>
+        <br />
+        <div class=" panel panel-grey">
+            <div class=" panel-heading">
+                Rezlive Result
+            </div>
+            <div class=" panel-body">
+                <div class="text-center" ng-if="!RezliveInvs.length">
+                    <span class="info">
+                        No Rezlive added.
+                    </span>
+                </div>
+                <div ng-if="RezliveInvs.length">
+                    <table id="rezlivInvTbl" class="table table-hover table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Batch No</th>
+                                <th>Internal Reference </th>
+                                <th>DocDate</th>
+                                <th>Description</th>
+                                <th>DocNo</th>
+                                <th>Currency</th>
+                                <th>Amount</th>
+                                <th>CRM_Amount</th>
+                                <th>AmountDiff</th>
+                                <th>ItemNo</th>
+                                <th>CRM_RefCode</th>
+                                <th>CRM_Partner RefNo</th>
+                                <th>CRM_Booking Status</th>
+                                <th>CRM_Property Name</th>
+                                <th>CRM_Property Country</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="rezliveInv in RezliveInvs| filter:{ CreatedDateTime: FDateTimes && FDateTimes !== '' ? FDateTimes : ''}|filter:searchTexts" ng-class="{bgRed: rezliveInv.AmountDiff > 0.00}">
+                                <td>{{$index + 1}}.</td>
+                                <td>{{rezliveInv.BatchNo}}</td>
+                                <td>{{rezliveInv.InternalRef}}</td>
+                                <td>{{rezliveInv.DocDate| date : "dd-MMM-yyyy" }}</td>
+                                <td>{{rezliveInv.Description}}</td>
+                                <td>{{rezliveInv.DocNo}}</td>
+                                <td>{{rezliveInv.Currency}}</td>
+                                <td>{{rezliveInv.Amount}}</td>
+                                <td>{{rezliveInv.CRM_Amount}}</td>
+                                <td>{{rezliveInv.AmountDiff|number :3}}</td>
+                                <td>{{rezliveInv.ItemNo}}</td>
+                                <td>{{rezliveInv.CRM_RefCode}}</td>
+                                <td>{{rezliveInv.CRM_PartnerRefNo}}</td>
+                                <td>{{rezliveInv.CRM_BookingStatus}}</td>
+                                <td>{{rezliveInv.CRM_PropertyName}}</td>
+                                <td>{{rezliveInv.CRM_Property_Country}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>

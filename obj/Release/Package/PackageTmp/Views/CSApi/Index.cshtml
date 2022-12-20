@@ -1,0 +1,126 @@
+﻿@model IEnumerable<ConsolidationSystem.Data.ProcessResult>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BatchNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InternalRef)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DocDate)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DocNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Currency)
+        </th>
+        <th>
+            @Html.ActionLink("Create New", "Create")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BatchNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InternalRef)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DocDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DocNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Currency)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.BatchNo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.InternalRef)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DocDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Description)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DocNo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ItemNo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Currency)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Amount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DifferentAmount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CRM_RefCode)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CRM_PartnerRefNo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CRM_BookingStatus)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CRM_PropertyName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CRM_Property_Country)
+    </td>
+    
+    <td>
+        @Html.DisplayFor(modelItem => item.CRM_Amount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.AmountDiff)
+    </td>
+   
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </td>
+</tr>
+}
+
+</table>

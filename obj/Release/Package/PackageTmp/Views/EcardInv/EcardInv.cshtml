@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "EcardInv";
+}
+
+@section Scripts{
+
+    <script src="~/Scripts/PageScripts/RezliveInv/RezliveInvcontroller.js"></script>
+}
+@if (ViewBag.Message != null)
+{
+    <script>
+
+$(document).ready(function(){
+
+alert('@ViewBag.Message');
+
+});
+
+    </script>
+
+}
+
+
+@using (Html.BeginForm("EcardInv", "EcardInv", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <style>
+        .drop-zone {
+            height: 107px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Quicksand", sans-serif;
+            font-weight: 500;
+            font-size: 18px;
+            color: #cccccc;
+            border: 4px dashed #009578;
+            border-radius: 10px;
+            width: 42%;
+        }
+
+        .bgRed {
+            background-color: #d06a6a !important;
+            color: black;
+        }
+    </style>
+    <div>
+
+        <div class="col-md-3 drop-zone">
+            <b style="color:black">Inv here </b>
+            @Html.TextBox("Compfile", "", new { type = "file" })
+            <b style="color:black">CRM here</b>
+            @Html.TextBox("CRMfiles", "", new { type = "file" })
+        </div>
+        <br />
+        <div class="col-md-3" style="text-align: center">
+            <input type="submit" class="btn btn-warning" style=" width: 100px;" value="Start" />
+        </div>
+        <div class="col-md-6" style="text-align: center">
+
+        </div>
+    </div>
+}
+<br />
+<div style="padding: 3%;"></div>
+<div ng-controller="EcardInvcontroller" class="row" ng-init="initialize()">
+
+    <div class="col-lg-12 col-md-12">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <label>Filter: <input type="date" data-date="" title="Filter" name="Filter" ng-model="FDateTime" class="form-control "></label>
+                    </div>
+                    <div class="col-md-6">
+                        <label>
+                            Batch No:  <select name="BatchNo"
+                                               class="form-control"
+                                               data-ng-model="BatchNos"
+                                               ng-change="BatchNofilter()"
+                                               data-ng-options="Batchno.BatchNo as Batchno.BatchNo for Batchno in BatchNo | orderBy:'BatchNo'">
+                                <option value="" selected disabled>--- BatchNo ---</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-1" style="padding-top: 20px; ">
+                <label>  <input type="submit" value="Batch Delete" class=" btn btn-danger" ng-click="deleteBatch(BatchNos)"> </></label>
+
+            </div>
+            <div class="col-md-1">
+                <label>By Filter: <input type="button" class="btn btn-primary form-control" value="Export" ng-click="Export()" /></label>
+
+            </div>
+            @*<div class="col-md-1">
+                <label>By date: <a class="btn btn-info form-control" href="@Url.Action("ExportEcard", "EcardInv")"> Export</a></label>
+            </div>*@
+            <div class="col-md-1">
+                <label>By Filter D/W: <input type="button" class="btn btn-default form-control" value="Amount" ng-click="Diff()" /></label>
+
+            </div>
+            <div class="col-md-5" style="text-align: end">
+                <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()">
+                </ul>
+            </div>
+        </div>
+        <br />
+        <div class=" panel panel-primary">
+            <div class=" panel-heading">
+                EcardInv Result
+            </div>
+            <div class=" panel-body">
+                <div class="text-center" ng-if="!EcardInvs.length">
+                    <span class="info">
+                        No EcardInv added.
+                    </span>
+                </div>
+                <table id="EcardInvtbl" class="table table-hover table-striped table-bordered" ng-if="EcardInvs.length">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Batch No</th>
+                            <th>Internal Reference </th>
+                            <th>DocDate</th>
+                            <th>Description</th>
+                            <th>DocNo</th>
+                            <th>Currency</th>
+                            <th>Amount</th>
+                            <th>CRM_Amount</th>
+                            <th>AmountDiff</th>
+                            <th>ItemNo</th>
+                            <th>CRM_RefCode</th>
+                            <th>CRM_Partner RefNo</th>
+                            <th>CRM_Booking Status</th>
+                            <th>CRM_Property Name</th>
+                            <th>CRM_Property Country</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="EcardInv in EcardInvs| filter:{ CreatedDateTime: FDateTimes && FDateTimes !== '' ? FDateTimes : ''}|filter:searchTexts" ng-class="{bgRed: EcardInv.AmountDiff > 0.00}">
+                            <td>{{$index + 1}}.</td>
+                            <td>{{EcardInv.BatchNo }}</td>
+                            <td>{{EcardInv.InternalRef}}</td>
+                            <td>{{EcardInv.DocDate| date : "dd-MMM-yyyy" }}</td>
+                            <td>{{EcardInv.Description}}</td>
+                            <td>{{EcardInv.DocNo}}</td>
+                            <td>{{EcardInv.Currency}}</td>
+                            <td>{{EcardInv.Amount}}</td>
+                            <td>{{EcardInv.CRM_Amount}}</td>
+                            <td>{{EcardInv.AmountDiff|number :3}}</td>
+                            <td>{{EcardInv.ItemNo}}</td>
+                            <td>{{EcardInv.CRM_RefCode}}</td>
+                            <td>{{EcardInv.CRM_PartnerRefNo}}</td>
+                            <td>{{EcardInv.CRM_BookingStatus}}</td>
+                            <td>{{EcardInv.CRM_PropertyName}}</td>
+                            <td>{{EcardInv.CRM_Property_Country}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

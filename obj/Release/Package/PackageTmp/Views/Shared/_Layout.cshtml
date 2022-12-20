@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Consolidation System</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/styles")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/common")
+    <link rel="icon" type="image/png" href="~/Content/themes/base/images/icons/icons8-joker-48.png" />
+
+    <script src="~/Scripts/PageScripts/app.js"></script>
+    @RenderSection("scripts", required: false)
+</head>
+<body ng-app="app">
+    <main class="container-fluid">
+        <div class="menu">
+            <nav class="primary">
+                <div class="avatar">
+                    <svg class="thumb" width="60" xmlns="http://www.w3.org/2000/svg" style="width:50px;" role="img" viewBox="0 0 24 24"><title>Qi icon</title><path d="M16.574 0a1.524 1.524 0 100 3.049 1.524 1.524 0 100-3.049zm-4.762 2.857a7.627 7.627 0 00-.01 15.246c.297 0 .296.293.296.293v2.65s.001 2.763 2.658 2.954c.295.01.295-.295.295-.295V3.785s0-.293-.295-.414a7.667 7.667 0 00-2.944-.514zM16.7 4.52c-.124-.02-.123.167-.123.386v11.147c0 .294-.002.528.293.297.01-.01.023-.019.033-.028a7.626 7.626 0 00-.03-11.709.41.41 0 00-.173-.093zm-4.765 1.386c.165 0 .164.164.164.164v8.82s0 .165-.164.165a4.577 4.577 0 010-9.148Z" /></svg>
+
+                </div>
+                <a href="/DashBoard/DashBoard" class="menu-item ">
+                    <span class="iconoir-report-columns"></span>
+                    <span class="desc">Dashboard</span>
+                </a>
+                <a href="/Home/Qnetlnv" class="menu-item">
+                    <span class="iconoir-google-docs"></span>
+                    <span class="desc">Qnet</span>
+                </a>
+                <a href="/RezliveInv/RezliveInv" class="menu-item">
+                    <span class="iconoir-table"></span>
+                    <span class="desc">Rezlive</span>
+                </a>
+                <a href="/EcardInv/EcardInv" class="menu-item">
+                    <span class="iconoir-bag"></span>
+                    <span class="desc">ECard</span>
+                </a>
+                @*<a href="#" class="menu-item">
+                        <span class="iconoir-user"></span>
+                        <span class="desc">Clients</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <span class="iconoir-leaderboard"></span>
+                        <span class="desc">Analytics</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <span class="iconoir-settings"></span>
+                        <span class="desc">Settings</span>
+                    </a>*@
+            </nav>
+            <span class="expander iconoir-arrow-right"></span>
+        </div>
+        <div class="topbar">
+            @*<h1 class="current">Dashboard</h1>*@
+            <span class="search">
+                <a href="/DashBoard/DashBoard" class="bar">Consolidation System</a>
+            </span>
+            <nav>
+                @*<a href="/RezliveInv/RezliveInv" class="menu-item">RezliveInv  </a>
+                    <a href="/Home/Qnetlnv" class="menu-item">Qnetlnv  </a>
+                    <a href="/EcardInv/EcardInv" class="menu-item">EcardInv  </a>*@
+
+                @*@Html.ActionLink("RezliveInv", "RezliveInv", "RezliveInv", new { @class = "menu-item" })*@
+                <a href="/Manage" title="Manage" class="menu-item">@User.Identity.Name </a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a href="/Account/Register" class=" ">
+                        <span data-toggle="tooltip" title="Register" class="iconoir-add-user fa-2x"></span>
+                    </a>
+                }
+                <a href="javascript:document.getElementById('logoutForm').submit()" class=" ">
+                    <span data-toggle="tooltip" title="Log-out!" class="iconoir-log-out fa-2x"></span>
+                </a>
+
+                @Html.Partial("_LoginPartial", new { @class = "menu-item" })
+            </nav>
+        </div>
+        <div class="dashboard">
+            <div class="cardcolumn">
+                <div class="card">
+                    <ol class="breadcrumb page-breadcrumb pull-right">
+                        <li><i class="fa fa-home"></i>&nbsp;<a href="@Url.Action("Index", "Home")"> @ViewBag.Title</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="hidden"><a href="#">@ViewBag.Title</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="">@ViewBag.Title</li>
+                    </ol>
+                    <div class="content">
+
+                        @RenderBody()
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>   
+</body>
+</html>

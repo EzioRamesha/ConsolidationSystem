@@ -1,0 +1,355 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Consolidation System</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/styles")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/common")
+
+    <script src="~/Scripts/PageScripts/app.js"></script>
+    @RenderSection("scripts", required: false)
+
+    @*<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
+        <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">*@
+
+    
+
+<style type="text/css">
+
+        .navbar-inverse {
+            background-color: blue !important;
+            background-image: none;
+        }
+
+            .navbar-inverse .navbar-brand {
+                color: #fff !important;
+            }
+
+            .navbar-inverse .navbar-nav > li > a {
+                color: #fff !important;
+            }
+
+
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #fafafa;
+            padding-top: 0px !important;
+        }
+
+        p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1em;
+            font-weight: 300;
+            line-height: 1.7em;
+            color: #999;
+        }
+
+        a,
+        a:hover,
+        a:focus {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .navbar {
+            padding: 15px 10px;
+            background: #fff;
+            border: none;
+            border-radius: 0;
+            margin-bottom: 40px;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-btn {
+            box-shadow: none;
+            outline: none !important;
+            border: none;
+        }
+
+        .line {
+            width: 100%;
+            height: 1px;
+            border-bottom: 1px dashed #ddd;
+            margin: 40px 0;
+        }
+
+        /* ---------------------------------------------------
+            SIDEBAR STYLE
+        ----------------------------------------------------- */
+
+        .wrapper {
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+        }
+
+    #sidebar {
+        min-width: 250px;
+        max-width: 250px;
+        background: #18296d;
+        color: #fff;
+        transition: all 0.3s;
+    }
+
+            #sidebar.active {
+                margin-left: -250px;
+            }
+
+            #sidebar .sidebar-header {
+               padding:5px;
+                background: blue;
+            }
+
+            #sidebar ul.components {
+                /*padding: 20px 0;*/
+                border-bottom: 1px solid #47748b;
+            }
+
+            #sidebar ul p {
+                color: #fff;
+                padding: 10px;
+            }
+
+            #sidebar ul li a {
+                padding: 10px;
+                font-size: 1.1em;
+                display: block;
+            }
+
+                #sidebar ul li a:hover {
+                    color: #7386D5;
+                    background: #fff;
+                }
+
+            #sidebar ul li.active > a,
+            a[aria-expanded="true"] {
+                color: #fff;
+                background: #6d7fcc;
+            }
+
+        a[data-toggle="collapse"] {
+            position: relative;
+        }
+
+        .dropdown-toggle::after {
+            display: block;
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+        }
+
+        ul ul a {
+            font-size: 0.9em !important;
+            padding-left: 30px !important;
+            background: #6d7fcc;
+        }
+
+        ul.CTAs {
+            padding: 20px;
+        }
+
+            ul.CTAs a {
+                text-align: center;
+                font-size: 0.9em !important;
+                display: block;
+                border-radius: 5px;
+                margin-bottom: 5px;
+            }
+
+        a.download {
+            background: #fff;
+            color: #7386D5;
+        }
+
+        a.article,
+        a.article:hover {
+            background: #6d7fcc !important;
+            color: #fff !important;
+        }
+
+        /* ---------------------------------------------------
+            CONTENT STYLE
+        ----------------------------------------------------- */
+
+        #content {
+            width: 100%;
+            padding: 20px;
+            min-height: 100vh;
+            transition: all 0.3s;
+        }
+
+        /* ---------------------------------------------------
+            MEDIAQUERIES
+        ----------------------------------------------------- */
+     @@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+    }
+    .btn-info {
+        color: #3b0909 ;
+    }
+</style>
+    <script>
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+
+</head>
+<body>
+    @*<div class="navbar navbar-inverse   navbar-fixed-top">
+
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Consolidation System", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("UploadFile", "UploadFile", "Home")</li>
+                        <li>@Html.ActionLink("RezliveInv", "RezliveInv", "RezliveInv")</li>
+
+
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid ng-cloak" ng-app="app">
+            @RenderBody()
+            <hr />
+            <div id="footer">
+                <div class="copyright">
+                    <p>&copy; @DateTime.Now.Year - © Consolidation System</p>
+                </div>
+            </div>
+        </div>*@
+
+
+    <div class="wrapper"  ng-app="app">
+    
+        <!-- Sidebar  -->
+        <nav id="sidebar" class="active">
+            <div class="sidebar-header">
+                <svg xmlns="http://www.w3.org/2000/svg" style="width:50px;" role="img" viewBox="0 0 24 24"><title>Qi icon</title><path d="M16.574 0a1.524 1.524 0 100 3.049 1.524 1.524 0 100-3.049zm-4.762 2.857a7.627 7.627 0 00-.01 15.246c.297 0 .296.293.296.293v2.65s.001 2.763 2.658 2.954c.295.01.295-.295.295-.295V3.785s0-.293-.295-.414a7.667 7.667 0 00-2.944-.514zM16.7 4.52c-.124-.02-.123.167-.123.386v11.147c0 .294-.002.528.293.297.01-.01.023-.019.033-.028a7.626 7.626 0 00-.03-11.709.41.41 0 00-.173-.093zm-4.765 1.386c.165 0 .164.164.164.164v8.82s0 .165-.164.165a4.577 4.577 0 010-9.148Z" /></svg>
+                
+            </div>
+
+            <ul class="list-unstyled components">
+                
+                <li class="">
+                    @Html.ActionLink("Home", "Index", "Home")
+
+                </li>
+
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">RezliveInv</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            @Html.ActionLink("UploadFile", "UploadFile", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("RezliveInv", "RezliveInv", "RezliveInv")
+                        </li>
+                    </ul>
+                </li>
+
+
+            </ul>
+            @Html.Partial("_LoginPartial")
+            <ul class="list-unstyled CTAs">
+                <li>
+                    @*<a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>*@
+                </li>
+                <li>
+                    @*<a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>*@
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid ng-cloak">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fa fa-bars"></i>
+
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                    <a style="font-size: 20px; font-weight: bold; color: darkblue;"> Consolidation System</a>
+                   
+                    <div class="collapse navbar-collapsing" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto" >
+                            
+                            <li class="nav-item" style="padding:5px" >
+                                <button type="button" class="btn btn-info">
+                                    <i class="fa fa-list"></i>
+                                    @Html.ActionLink("RezliveInv", "RezliveInv", "RezliveInv")
+                                </button>
+                                
+                            </li>
+                            
+                            <li class="nav-item" style="padding:5px" >
+                                <button type="button" class="btn btn-info">
+                                    <i class="fa fa-building"></i>
+                                    @Html.ActionLink("Qnetlnv", "Qnetlnv", "Home")
+                                </button>
+                               
+
+                            </li>
+                            <li class="nav-item" style="padding:5px">
+                                <button type="button" class="btn btn-info">
+                                    <i class="fa fa-file-archive-o"></i> 
+                                    @Html.ActionLink("EcardInv", "EcardInv", "EcardInv")
+                                </button>
+                              
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            @RenderBody()
+
+            <div class="line"></div>
+
+            <div class="line"></div>
+
+            <div class="line"></div>
+            <div id="footer">
+                <div class="copyright">
+                    <p>&copy; @DateTime.Now.Year - Consolidation System</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

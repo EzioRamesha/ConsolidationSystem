@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "DashBoard";
+}
+@section Scripts{
+
+    <script src="~/Scripts/PageScripts/RezliveInv/RezliveInvcontroller.js"></script>
+}
+<div ng-controller="Historycontroller" class="row" ng-init="initialize()">
+    <div class=" panel panel-primary">
+        <div class=" panel-heading">
+            History
+        </div>
+        <div class=" panel-body">
+            <div class="text-center" ng-if="!History.length">
+                <span class="info">
+                    No Records added.
+                </span>
+            </div>
+            <table id="Historybl" class="table table-hover table-striped table-bordered" ng-if="History.length">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Batch No</th>                      
+                        <th>Inv FileName</th>
+                        <th>CRM FileName</th>
+                        <th>Created DateTime</th>
+                        <th>Created UserName</th>
+                        <th>Type</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="history in History" ng-class="{bgRed: EcardInv.AmountDiff > 0.00}">
+                        <td>{{$index + 1}}.</td>
+                        <td>{{history.BatchNo }}</td>
+                        <td>{{history.InvFileName}}</td>
+                        <td>{{history.CRMFileName}}</td>
+                        <td>{{history.CreatedDateTime| date : "dd-MMM-yyyy" }}</td>
+                        <td>{{history.CreatedUserName}}</td>
+                        <td>{{history.Type}}</td>                       
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+

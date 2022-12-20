@@ -1,0 +1,159 @@
+﻿@model ConsolidationSystem.Models.LoginViewModel
+@*@{
+        var dateString = System.Configuration.ConfigurationManager.AppSettings["LastDeploymentDate"];
+        DateTime date = DateTime.Now;
+        bool dateResult = false;
+        if (!string.IsNullOrEmpty(dateString))
+        {
+            dateResult = DateTime.TryParse(dateString, out date);
+        }
+    }*@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Consolidation System: Log in</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+
+    <style type="text/css">
+        /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
+        @@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+      
+
+            .btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
+                background-color: #e6e6e6;
+            }
+
+      
+
+
+        .btn-block {
+            width: 10%;
+            display: block;
+        }
+
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -ms-box-sizing: border-box;
+            -o-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Open Sans', sans-serif;
+          
+        }
+
+        .login {
+            position: absolute;
+           width:100%;
+           height:100%;
+           margin-left:5%;
+        }
+
+            .login h1 {
+                color:black;
+                text-shadow: 0 0 10px rgba(0,0,0,0.3);
+                letter-spacing: 1px;
+                text-align: left;
+            }
+
+        input {
+            width: 20%;
+            margin-bottom: 10px;
+           
+            border: none;
+            outline: none;
+            padding: 10px;
+            font-size: 13px;            
+            border: 1px solid rgba(0,0,0,0.3);
+            border-radius: 4px;
+           
+        }
+        hr.new5 {
+            border: 33px solid blue;
+          
+        }
+
+        .nb {
+            width: 100%;
+            font-family: cursive;
+            background-color: blue;
+            position: relative;
+            display: inline-block;
+            padding: 19px 19px;
+            color: #fff;
+            font-size: xxx-large;
+            text-decoration: none;
+            text-transform: lowercase;
+            overflow: hidden;
+            transition: 0.5s;
+            margin-top: -10px;
+        }
+            
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+</head>
+
+<body>
+    <b class="nb">qi</b>
+
+    <div style="margin-left:2%">
+        <h1>Log in .</h1>
+        <hr style="width: 50%; margin-left: initial;">
+    </div>
+    
+    @*<hr class="new5">*@
+    <div class="login">
+
+        <form method="post">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <div >
+                    @Html.AntiForgeryToken()
+                    <a>Email :</a>
+                    @Html.TextBoxFor(m => m.Email, new { placeholder = "Username", required = "required", autofocus = "", autocomplete = "off" })
+                </div>
+                <div style="margin-left:-35px">
+                    <a>Password :</a>
+                    @Html.PasswordFor(m => m.Password, new { placeholder = "Password", required = "required", autocomplete = "off" })
+
+                </div>
+                <div style="margin-left:48px">
+                    <input type="submit" value="Log in." class="btn btn-primary btn-block btn-large" />
+                </div>
+
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            }
+            <p class="col-md-9 col-sm-9 col-xs-12">
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <font style="color:white;">(Latest release: 15/Nov/2022)</font>
+            </p>
+        </form>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+
+</body>
+</html>
+
+
+
+
